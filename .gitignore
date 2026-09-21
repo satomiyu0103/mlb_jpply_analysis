@@ -54,6 +54,9 @@ Thumbs.db
 # pytest
 .pytest_cache/
 
+# 個人用 Q&A（リポジトリ共有不要）
+doc/qa/
+
 # Cursor / エージェント（ローカル開発用・リモートに載せない）
 .cursor/
 AGENTS.md
