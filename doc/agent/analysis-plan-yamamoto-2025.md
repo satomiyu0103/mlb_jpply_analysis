@@ -1,7 +1,7 @@
 # 分析計画: 山本由伸（2025 レギュラー基準・WS 偉業）
 
 - **作成日**: 2026-03-21
-- **状態**: 計画確定（実装前）
+- **状態**: 計画更新（FanGraphs → MLB Stats API、Statcast は DuckDB）
 - **関連**: [analysis-workflow.md](analysis-workflow.md) · [metrics-and-definitions.md](metrics-and-definitions.md) · [data-catalog.md](data-catalog.md)
 
 本書は、2025 年ワールドシリーズにおける山本由伸の偉業をデータで説明するための **第 1 分析** の計画である。チャット（2026-03-21）で整理した目的・手順・成功条件を正本とする。
@@ -16,8 +16,8 @@
 
 | 層 | 問い | 主データ |
 |----|------|----------|
-| A. 公式成績 | 勝率・防御率・登板・ポスト結果 | FanGraphs / MLB Stats API |
-| B. 投球内容 | 球種・球速・制球・打たれ方 | Statcast（pybaseball） |
+| A. 公式成績 | 勝率・防御率・登板・ポスト結果 | **MLB Stats API**（シーズン投手成績） |
+| B. 投球内容 | 球種・球速・制球・打たれ方 | Statcast（pybaseball）→ **DuckDB** でリーグ全体 SQL |
 | C. 偉業の文脈 | WS 3 勝・MVP・クリンチ登板 | MLB Stats API ＋ Statcast（日付フィルタ） |
 
 **原則**: 順位・リーグ比較の母集団は **2025 レギュラー先発**。WS は **サンプルが小さい** ため順位ではなく **記録値とレギュラーからの変化** で扱う。
@@ -41,8 +41,8 @@
 
 | スプリット | 用途 | raw 保存の目安 |
 |------------|------|----------------|
-| **2025 レギュラー** | 順位・リーグ比較の基準 | `data/raw/statcast/2025_regular_*.parquet` 等 |
-| **2025 ポスト** | レギュラー比の変化（LDS/LCS/WS 含む） | `data/raw/statcast/2025_post_*.parquet` |
+| **2025 レギュラー** | 順位・リーグ比較の基準 | `data/external/statcast/{取得日}_2025_regular.parquet` 等 |
+| **2025 ポスト** | レギュラー比の変化（LDS/LCS/WS 含む） | `data/external/statcast/{取得日}_2025_post.parquet` |
 | **2025 WS のみ** | 偉業の詳細（3 勝・登板内容） | 同上＋ API JSON |
 
 日付境界は取得時に MLB 公式スケジュールで確認する。Statcast は **後から修正** されるため、raw ファイル名に **取得日（YYYYMMDD）** を含める。
@@ -66,10 +66,11 @@
 
 | ソース | 取得手段 | 用途 |
 |--------|----------|------|
-| Statcast / Baseball Savant | `pybaseball.statcast` | 1 球・球種・物理・結果 |
-| FanGraphs | `pybaseball.pitching_stats` | シーズン成績・母集団順位 |
-| Chadwick Register | `pybaseball.chadwick_register` / `playerid_lookup` | MLBAM ↔ FG ↔ 名前 |
-| MLB Stats API | `mlb-statsapi` / `requests` | WS gamePk、boxscore、公式 W-L |
+| Statcast / Baseball Savant | `pybaseball.statcast` | 1 球・球種・物理・結果（raw Parquet） |
+| MLB Stats API | `GET /api/v1/stats` 等 | **シーズン投手成績・母集団順位**（`gameType=R`, `group=pitching`, `playerPool=QUALIFIED` / `ALL`） |
+| Chadwick Register | `pybaseball.chadwick_register` / `playerid_lookup` | MLBAM ↔ 名前（FG ID は参照のみ） |
+| MLB Stats API | `mlb-statsapi` / `requests` | schedule、boxscore、WS gamePk、公式 W-L |
+| DuckDB | `duckdb`（ローカル `.duckdb`） | Statcast 全投手・リーグ集計 SQL（[statcast-storage-and-database.md](statcast-storage-and-database.md)） |
 | 列定義 | [Savant CSV ドキュメント](https://baseballsavant.mlb.com/csv-docs) · [Statcast検索CSV列定義.md](reference/Statcast検索CSV列定義.md) | 列の意味確認 |
 
 詳細パス・更新頻度は [data-catalog.md](data-catalog.md) を参照。
@@ -89,7 +90,7 @@
 
 ### 6.1 レギュラー先発成績（順位の主役）
 
-ERA、FIP、xFIP、WHIP、**勝率**（勝/(勝+敗)）、K%、BB%、K-BB%、IP（規定フィルタ用）。
+ERA、WHIP、**勝率**（勝/(勝+敗)）、K%、BB%、K-BB%、IP、**派生 FIP**（MLB API の HR/BB/K/IP から計算。定数は metrics に明記）。**xFIP・fWAR は第 1 分析の順位から除外**（FG 非利用）。CSW% 等の詳細は Statcast（DuckDB）から算出。
 
 ### 6.2 球種・Statcast（順位 or パーセンタイル）
 
@@ -106,7 +107,7 @@ WS 勝利数、WS 登板・防御率・WHIP、レギュラー同一指標との�
 | 項目 | 定義 |
 |------|------|
 | 対象 | 2025 MLB レギュラーシーズンの **先発投手** |
-| 規定 | FanGraphs の規定回（qual）に準拠。未達の場合は metrics に記載する代替最低 IP |
+| 規定 | MLB Stats API `playerPool=QUALIFIED` を優先。全員比較は `ALL`＋metrics の最低 IP（例: 100）で脚注 |
 | 除外 | 救援のみ、極端に少ない IP |
 | ポスト | 順位母集団に **含めない**（IP 不足） |
 
@@ -116,10 +117,11 @@ WS 勝利数、WS 登板・防御率・WHIP、レギュラー同一指標との�
 
 | # | 条件 | 検証 |
 |---|------|------|
-| 1 | 由伸の ID 固定（MLBAM / FG / API personId 一致） | Register 突合表 |
+| 1 | 由伸の ID 固定（MLBAM = API `person.id`） | Register 突合表 |
 | 2 | 2025 レギュラー Statcast 取得 | raw 行数・日付・pitcher 唯一 |
 | 3 | 2025 ポスト＋ WS Statcast 取得 | WS 試合日を含む |
-| 4 | FG 2025 先発母集団取得 | qual 人数・由伸含有 |
+| 4 | MLB API 2025 レギュラー投手成績 JSON 取得 | QUALIFIED 人数・由伸含有 |
+| 4b | Statcast を DuckDB に載せる | 行数・`pitcher` ユニーク数・由伸球数 |
 | 5 | 指標定義が metrics に記載 | レビュー |
 | 6 | **レギュラー指標の順位可視化** | 分布＋由伸位置（複数指標） |
 | 7 | 球種・Statcast 系の順位 or パーセンタイル可視化 | 同上 |
@@ -184,7 +186,8 @@ WS 勝利数、WS 登板・防御率・WHIP、レギュラー同一指標との�
 | 球種アウト率の定義ブレ | PA 終了球ベースで固定 |
 | Statcast 後日修正 | raw に取得日、再取得手順を記録 |
 | 大量 API 取得 | 期間分割・キャッシュ・間隔 |
-| FG と Savant の定義差 | 表に出典列 |
+| API と Savant の定義差（PA vs BF 等） | 表に出典列・metrics 脚注 |
+| FanGraphs 403 | **計画から除外**（MLB API に一本化） |
 
 ---
 
@@ -193,7 +196,7 @@ WS 勝利数、WS 登板・防御率・WHIP、レギュラー同一指標との�
 | Phase | 内容 |
 |-------|------|
 | 0 | metrics / data-catalog 更新（本計画と整合） |
-| 1 | ID 固定・raw 取得（レギュラー → ポスト → FG 母集団・API WS） |
+| 1 | ID 固定・raw 取得（Statcast レギュラー/ポスト → MLB API 投手成績 → API WS）・DuckDB 構築 |
 | 2 | EDA・既知事実チェック |
 | 3 | レギュラー成績順位の表・図 |
 | 4 | 球種・Statcast 順位 / パーセンタイル |
@@ -205,14 +208,15 @@ WS 勝利数、WS 登板・防御率・WHIP、レギュラー同一指標との�
 ## 13. 検証
 
 - MLB Stats API の WS 登板・勝敗と Statcast の試合日・game_pk の一致
-- FanGraphs 由伸 2025 レギュラー ERA / W-L と公開記録の方向性一致
-- 母集団人数が FG qual と整合（差があれば脚注）
+- MLB API 由伸 2025 レギュラー ERA / W-L と公開記録の方向性一致
+- 母集団人数が API `QUALIFIED` と整合（`ALL` 使用時は脚注）
+- DuckDB 集計の由伸 K% と API 由来 K% が大きく乖離しないこと（定義差は脚注）
 
 ---
 
 ## 14. 依存パッケージ（取得レイヤー）
 
-`pyproject.toml` に含める想定: `pybaseball`, `requests`, `mlb-statsapi`, `polars`, `matplotlib`, `japanize-matplotlib` 等。分析本体は polars を優先する。
+`pyproject.toml` に含める想定: `pybaseball`, `requests`, `mlb-statsapi`, `polars`, `duckdb`, `matplotlib`, `japanize-matplotlib` 等。分析本体は polars を優先し、リーグ全体 SQL は DuckDB。
 
 ---
 
@@ -221,3 +225,4 @@ WS 勝利数、WS 登板・防御率・WHIP、レギュラー同一指標との�
 | 日付 | 内容 |
 |------|------|
 | 2026-03-21 | 初版（チャット要約・計画確定） |
+| 2026-09-22 | FanGraphs 廃止・MLB Stats API 成績に変更。Statcast は DuckDB 分析層を追加 |

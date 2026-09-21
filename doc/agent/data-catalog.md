@@ -8,23 +8,34 @@
 
 | 項目 | 内容 |
 |------|------|
-| パス | `data/raw/statcast/{取得日}_{スプリット}.parquet`（例: `20260321_2025_regular.parquet`） |
+| パス | `data/external/statcast/{取得日}_{スプリット}.parquet`（例: `20260921_2025_regular.parquet`） |
 | 粒度 | 1 行 = 1 球 |
 | 更新頻度 | シーズン中は試合後〜日次追加。過去行の修正あり |
 | オーナー | MLB / Baseball Savant |
 | 機密度 | 公開データ（利用規約・再配布は要確認） |
 | 注意点 | pybaseball `statcast(start_dt, end_dt)` で取得。raw は不変。取得日をファイル名に含める |
 
-### FanGraphs 投手成績（シーズン）
+### MLB Stats API — 投手シーズン成績（レギュラー等）
 
 | 項目 | 内容 |
 |------|------|
-| パス | `data/raw/fangraphs/pitching_stats_{season}.parquet` |
-| 粒度 | 1 行 = 投手 × シーズン（集計） |
-| 更新頻度 | 日次〜試合後（スクレイピング経由） |
-| オーナー | FanGraphs |
-| 機密度 | 公開（研究利用一般的、大量取得は控える） |
-| 注意点 | `pybaseball.pitching_stats(season)`。順位母集団・qual 用 |
+| パス | `data/raw/mlb_statsapi/{取得日}_pitching_{season}_{gameType}.json`（例: `pitching_2025_regular.json`） |
+| 粒度 | 1 エントリ = 投手 × シーズン × `gameType` |
+| 更新頻度 | 試合後〜日次 |
+| オーナー | MLB |
+| 機密度 | 公開 API |
+| 注意点 | `GET https://statsapi.mlb.com/api/v1/stats?stats=season&group=pitching&season=2025&gameType=R&playerPool=QUALIFIED`（全員は `playerPool=ALL`）。順位母集団の正本 |
+
+### Statcast 分析用 DuckDB
+
+| 項目 | 内容 |
+|------|------|
+| パス | `data/processed/duckdb/mlb_statcast.duckdb`（gitignore） |
+| 粒度 | 1 行 = 1 球（Parquet から VIEW または COPY） |
+| 更新頻度 | Statcast raw 追加時に再構築または差分 INSERT |
+| オーナー | 本リポジトリ（生成物） |
+| 機密度 | 公開 Statcast のローカル索引 |
+| 注意点 | 設計は [statcast-storage-and-database.md](statcast-storage-and-database.md) |
 
 ### Chadwick Register（選手 ID）
 
@@ -65,8 +76,7 @@
 |--------|-----|------|------|
 | `pitcher` | int | Statcast 投手 MLBAM ID | 由伸でフィルタ |
 | `key_mlbam` | int | Register 上の MLBAM ID | Statcast と同一 |
-| `IDfg` / FanGraphs ID | int | FanGraphs 選手 ID | pitching_stats 結合 |
-| `personId` | int | MLB Stats API 選手 ID | API 成績取得 |
+| `person.id` / `personId` | int | MLB Stats API 選手 ID（= MLBAM） | API 成績・Register `key_mlbam` |
 | `game_pk` | int | 試合 ID | Statcast と API の突合 |
 | `pitch_type` | string | 球種コード | 球種別集計 |
 
