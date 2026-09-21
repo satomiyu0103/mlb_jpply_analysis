@@ -17,5 +17,6 @@
 | `outputs/reports/` | レポート |
 | `doc/agent/` | エージェント向けプロジェクト文書（分析計画・指標等。一部は gitignore） |
 | `doc/agent/reference/` | 外部ツール・ライブラリの使い方リファレンス |
+| `doc/research/` | 外部調査メモ（調査ファイルは日本語ファイル名、索引は README） |
 | `.cursor/` | ローカルの Cursor 設定（skills / rules）。**gitignore・push 対象外** |
 | `doc/初心者ガイド.md` | データサイエンス初心者向けの使い方 |
