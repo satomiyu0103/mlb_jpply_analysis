@@ -8,18 +8,18 @@
 
 | 項目 | 内容 |
 |------|------|
-| パス | `data/external/statcast/{取得日}_{スプリット}.parquet`（例: `20260921_2025_regular.parquet`） |
+| パス | `data/external/statcast/{スプリット}.parquet`（例: `2025_regular.parquet`） |
 | 粒度 | 1 行 = 1 球 |
 | 更新頻度 | シーズン中は試合後〜日次追加。過去行の修正あり |
 | オーナー | MLB / Baseball Savant |
 | 機密度 | 公開データ（利用規約・再配布は要確認） |
-| 注意点 | pybaseball `statcast(start_dt, end_dt)` で取得。raw は不変。取得日をファイル名に含める |
+| 注意点 | pybaseball `statcast(start_dt, end_dt)` で取得。raw は不変。再取得時は別コミットまたは実行ログで日付を残す |
 
 ### MLB Stats API — 投手シーズン成績（レギュラー等）
 
 | 項目 | 内容 |
 |------|------|
-| パス | `data/raw/mlb_statsapi/{取得日}_pitching_{season}_{gameType}.json`（例: `pitching_2025_regular.json`） |
+| パス | `data/raw/mlb_statsapi/pitching_{season}_{split}.json`（規定: `pitching_2025_regular.json`）・全員: `pitching_2025_regular_all.json` |
 | 粒度 | 1 エントリ = 投手 × シーズン × `gameType` |
 | 更新頻度 | 試合後〜日次 |
 | オーナー | MLB |
@@ -52,7 +52,7 @@
 
 | 項目 | 内容 |
 |------|------|
-| パス | `data/raw/mlb_statsapi/{取得日}_{種別}.json`（schedule / boxscore / player_stats 等） |
+| パス | `data/raw/mlb_statsapi/{種別}.json`（例: `schedule_2025_LAD.json`） |
 | 粒度 | エンドポイント依存（試合・選手・成績） |
 | 更新頻度 | 試合日はほぼリアルタイム〜試合後 |
 | オーナー | MLB |

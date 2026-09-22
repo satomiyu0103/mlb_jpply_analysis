@@ -92,7 +92,7 @@
 ### 4.1 レイヤー（メダリオンと整合）
 
 ```text
-data/external/statcast/*.parquet   … 不変 raw（取得日付きファイル名）
+data/external/statcast/*.parquet   … 不変 raw（スプリット名ファイル、例: `2025_regular.parquet`）
         ↓
 DuckDB: VIEW statcast_pitches AS SELECT * FROM read_parquet('.../*.parquet')
         または

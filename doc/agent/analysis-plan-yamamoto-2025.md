@@ -41,11 +41,11 @@
 
 | スプリット | 用途 | raw 保存の目安 |
 |------------|------|----------------|
-| **2025 レギュラー** | 順位・リーグ比較の基準 | `data/external/statcast/{取得日}_2025_regular.parquet` 等 |
-| **2025 ポスト** | レギュラー比の変化（LDS/LCS/WS 含む） | `data/external/statcast/{取得日}_2025_post.parquet` |
+| **2025 レギュラー** | 順位・リーグ比較の基準 | `data/external/statcast/2025_regular.parquet` 等 |
+| **2025 ポスト** | レギュラー比の変化（LDS/LCS/WS 含む） | `data/external/statcast/2025_post.parquet` |
 | **2025 WS のみ** | 偉業の詳細（3 勝・登板内容） | 同上＋ API JSON |
 
-日付境界は取得時に MLB 公式スケジュールで確認する。Statcast は **後から修正** されるため、raw ファイル名に **取得日（YYYYMMDD）** を含める。
+日付境界は取得時に MLB 公式スケジュールで確認する。Statcast は **後から修正** されるため、再取得したときは **コミットメッセージまたは notebook 実行日** で取得日を残す（ファイル名はスプリット固定）。
 
 ---
 
@@ -184,7 +184,7 @@ WS 勝利数、WS 登板・防御率・WHIP、レギュラー同一指標との�
 | WS のみで順位を語る | 順位はレギュラーのみ |
 | 勝率と勝ち星の混同 | 列分離・metrics 定義 |
 | 球種アウト率の定義ブレ | PA 終了球ベースで固定 |
-| Statcast 後日修正 | raw に取得日、再取得手順を記録 |
+| Statcast 後日修正 | 再取得手順と取得日をコミット／memory_stream に記録 |
 | 大量 API 取得 | 期間分割・キャッシュ・間隔 |
 | API と Savant の定義差（PA vs BF 等） | 表に出典列・metrics 脚注 |
 | FanGraphs 403 | **計画から除外**（MLB API に一本化） |
