@@ -70,6 +70,15 @@
 | 機密度 | 集計のみ（commit 可） |
 | 注意点 | raw から生成。上書き方針は Notebook / スクリプトで明示 |
 
+### Statcast 列名日本語マッピング
+
+| 項目 | 内容 |
+|------|------|
+| パス | `data/interim/mappings/statcast_column_ja.csv` |
+| 粒度 | 1 行 = Statcast 列（`column_en` → `column_ja`） |
+| 再生成 | `uv run python scripts/build_statcast_column_ja_csv.py`（列定義 MD と Parquet 突合） |
+| 利用 | `from analysis_project.statcast_columns import rename_statcast_columns` |
+
 ## 主要キー
 
 | キー名 | 型 | 説明 | 備考 |
@@ -89,9 +98,9 @@
 | `pfx_x`, `pfx_z` | float | 変化量 | 慣例はインチ換算あり |
 | `release_spin_rate` | float | スピン | |
 | `release_pos_x`, `release_pos_z` | float | リリース位置 | SD 計算 |
-| `pitch_type`, `pitch_name` | string | 球種 | マッピング表を interim に |
+| `pitch_type`, `pitch_name` | string | 球種 | 日本語: [Statcast球種コード日本語.md](reference/Statcast球種コード日本語.md) · CSV: `data/interim/mappings/statcast_pitch_type_ja.csv` |
 | `description`, `events` | string | 結果 | Whiff・アウト判定 |
 | `plate_x`, `plate_z` | float | コース | 制球 proxy |
 | `stand`, `p_throws` | string | 打者/投手の左右 | 配球分析 |
 
-列の正本（英語）: [Savant CSV ドキュメント](https://baseballsavant.mlb.com/csv-docs) · 日本語訳: [Statcast検索CSV列定義.md](reference/Statcast検索CSV列定義.md)
+列の正本（英語）: [Savant CSV ドキュメント](https://baseballsavant.mlb.com/csv-docs) · 日本語訳: [Statcast検索CSV列定義.md](reference/Statcast検索CSV列定義.md) · Notebook の `df_statcast` 等: [statcast-dataframe.md](statcast-dataframe.md)

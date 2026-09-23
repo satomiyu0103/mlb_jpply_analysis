@@ -37,3 +37,4 @@ powershell -File scripts/run_quality_checks.ps1
 | テンプレ由来 | [atsushi-green/ds-ai-coding-skills](https://github.com/atsushi-green/ds-ai-coding-skills) |
 | 改変記録 | [`ATTRIBUTION.md`](ATTRIBUTION.md) |
 | Statcast 列定義（日本語） | [`doc/agent/reference/Statcast検索CSV列定義.md`](doc/agent/reference/Statcast検索CSV列定義.md) |
+| Statcast 球種コード（日本語） | [`doc/agent/reference/Statcast球種コード日本語.md`](doc/agent/reference/Statcast球種コード日本語.md) |

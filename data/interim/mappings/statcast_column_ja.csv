@@ -1,0 +1,120 @@
+column_en,column_ja,category_ja,description_ja
+game_date,試合日,試合・状況,試合日
+game_year,試合年,試合・状況,試合が行われた年
+game_pk,試合ID,試合・状況,試合を一意に識別する ID
+game_type,試合種別,試合・状況,E/S/R/F/D/L/W 等（レギュラー・ポスト等）
+home_team,ホーム球団,試合・状況,ホームチーム略称
+away_team,アウェイ球団,試合・状況,アウェイチーム略称
+inning,イニング,試合・状況,ピッチ前のイニング
+inning_topbot,表裏,試合・状況,Top=表 / Bot=裏
+outs_when_up,アウト数,試合・状況,ピッチ前のアウト数
+at_bat_number,打席通算番号,試合・状況,試合内の打席通算番号
+pitch_number,打席内球数,試合・状況,当該打席内のピッチ通算番号
+player_name,選手名,選手・ID,検索条件に紐づく選手名
+pitcher,投手ID,選手・ID,投手 MLBAM ID
+batter,打者ID,選手・ID,打者 MLBAM ID
+p_throws,投手腕,選手・ID,投手の投球腕 R/L
+stand,打席側,選手・ID,打者の打席側 R/L
+fielder_2,捕手ID,選手・ID,ピッチ前の捕手 MLBAM ID
+fielder_3,一塁手ID,選手・ID,ピッチ前一塁手 MLBAM ID
+fielder_4,二塁手ID,選手・ID,ピッチ前二塁手 MLBAM ID
+fielder_5,三塁手ID,選手・ID,ピッチ前三塁手 MLBAM ID
+fielder_6,遊撃手ID,選手・ID,ピッチ前遊撃手 MLBAM ID
+fielder_7,左翼手ID,選手・ID,ピッチ前左翼手 MLBAM ID
+fielder_8,中堅手ID,選手・ID,ピッチ前中堅手 MLBAM ID
+fielder_9,右翼手ID,選手・ID,ピッチ前右翼手 MLBAM ID
+on_1b,一塁走者ID,選手・ID,ピッチ前一塁走者 MLBAM ID
+on_2b,二塁走者ID,選手・ID,ピッチ前二塁走者 MLBAM ID
+on_3b,三塁走者ID,選手・ID,ピッチ前三塁走者 MLBAM ID
+age_pit_legacy,投手年齢_旧,選手・ID,投手年齢（6/30 時点・旧定義）
+age_bat_legacy,打者年齢_旧,選手・ID,打者年齢（6/30 時点・旧定義）
+age_pit,投手年齢,選手・ID,投手年齢（12/31 時点）
+age_bat,打者年齢,選手・ID,打者年齢（12/31 時点）
+n_thruorder_pitcher,打順周回_投手,選手・ID,投手が打順を何周目か
+n_priorpa_thisgame_player_at_bat,当試合打席数_打者,選手・ID,当該打者のこの試合での prior 打席数
+pitcher_days_since_prev_game,投手_前試合から日数,選手・ID,投手の前試合からの日数
+batter_days_since_prev_game,打者_前試合から日数,選手・ID,打者の前試合からの日数
+pitcher_days_until_next_game,投手_次試合まで日数,選手・ID,投手の次試合までの日数
+batter_days_until_next_game,打者_次試合まで日数,選手・ID,打者の次試合までの日数
+pitch_type,球種コード,球種・投球物理,"Statcast 球種コード（FF, SL 等）"
+pitch_name,球種名_英,球種・投球物理,Statcast 球種英語名
+release_speed,球速_mph,球種・投球物理,球速（mph）
+effective_speed,換算球速_mph,球種・投球物理,延伸込み換算球速
+release_spin_rate,回転数_rpm,球種・投球物理,リリース時回転数（rpm）
+spin_axis,回転軸_度,球種・投球物理,2D 回転軸（0–360°）
+release_extension,リリース延伸_ft,球種・投球物理,リリース延伸（フィート）
+release_pos_x,リリース位置X_ft,球種・投球物理,捕手視点水平リリース位置
+release_pos_y,リリース位置Y_ft,球種・投球物理,捕手視点奥行リリース位置
+release_pos_z,リリース位置Z_ft,球種・投球物理,捕手視点垂直リリース位置
+pfx_x,変化量X_ft,球種・投球物理,捕手視点水平方向の球の動き
+pfx_z,変化量Z_ft,球種・投球物理,捕手視点垂直方向の球の動き
+vx0,初速X_50ft,球種・投球物理,y=50ft 付近の x 方向初速
+vy0,初速Y_50ft,球種・投球物理,y=50ft 付近の y 方向初速
+vz0,初速Z_50ft,球種・投球物理,y=50ft 付近の z 方向初速
+ax,加速度X_50ft,球種・投球物理,y=50ft 付近の x 方向加速度
+ay,加速度Y_50ft,球種・投球物理,y=50ft 付近の y 方向加速度
+az,加速度Z_50ft,球種・投球物理,y=50ft 付近の z 方向加速度
+api_break_z_with_gravity,垂直ブレーク_重力込,球種・投球物理,重力を含めた垂直ブレーク
+api_break_x_arm,ブレーク_腕側_in,球種・投球物理,投手腕側へのブレーク（インチ）
+api_break_x_batter_in,ブレーク_内角_in,球種・投球物理,打者内側方向ブレーク（インチ）
+arm_angle,腕角度,球種・投球物理,投球肩から球への角度
+plate_x,本塁通過X,コース・ゾーン,本塁上を横切った水平位置
+plate_z,本塁通過Z,コース・ゾーン,本塁上を横切った垂直位置
+zone,ゾーン番号,コース・ゾーン,ストライクゾーン等のゾーン位置
+sz_top,ゾーン上端,コース・ゾーン,打者ストライクゾーン上端
+sz_bot,ゾーン下端,コース・ゾーン,打者ストライクゾーン下端
+balls,ボール数,カウント・結果,ピッチ前のボール数
+strikes,ストライク数,カウント・結果,ピッチ前のストライク数
+type,結果区分,カウント・結果,B=ボール / S=ストライク / X=インプレイ
+description,ピッチ結果,カウント・結果,当該ピッチの結果説明
+events,打席終了イベント,カウント・結果,打席の最終イベント
+des,打席説明文,カウント・結果,GameDay 由来の打席説明
+sv_id,プレーイベントID,カウント・結果,試合内プレーイベント ID
+hit_location,守備位置_初触,打球,最初に球に触れた守備位置
+bb_type,打球種,打球,ゴロ/ライナー/フライ等
+hc_x,打球座標X,打球,打球座標 X
+hc_y,打球座標Y,打球,打球座標 Y
+hit_distance_sc,飛距離_ft,打球,打球推定飛距離（フィート）
+launch_speed,打球初速_mph,打球,打球初速（mph）
+launch_angle,打球角度_度,打球,打球角度（度）
+launch_speed_angle,初速角度ゾーン,打球,初速・角度ゾーン（Barrel 等）
+estimated_ba_using_speedangle,推定打率,打球,初速・角度に基づく推定打率
+estimated_woba_using_speedangle,推定wOBA,打球,初速・角度に基づく推定 wOBA
+estimated_slg_using_speedangle,推定長打率,打球,初速・角度に基づく推定長打率
+hyper_speed,調整後EV,打球,Adjusted EV（88mph 下限等）
+woba_value,wOBA値,価値・期待値,プレー結果に基づく wOBA 値
+woba_denom,wOBA分母,価値・期待値,プレー結果に基づく wOBA 分母
+babip_value,BABIP値,価値・期待値,プレー結果に基づく BABIP 値
+iso_value,ISO値,価値・期待値,プレー結果に基づく ISO 値
+delta_home_win_exp,勝率期待変化_ホーム,価値・期待値,ピッチ前後のホーム勝利期待値の変化
+delta_run_exp,得点期待変化,価値・期待値,ピッチ前後の得点期待値の変化
+delta_pitcher_run_exp,得点期待変化_投手視点,価値・期待値,ピッチ前後の投手視点得点期待値の変化
+home_score,ホーム得点_前,スコア,ピッチ前のホーム得点
+away_score,アウェイ得点_前,スコア,ピッチ前のアウェイ得点
+bat_score,攻撃得点_前,スコア,ピッチ前の攻撃側得点
+fld_score,守備得点_前,スコア,ピッチ前の守備側得点
+post_home_score,ホーム得点_後,スコア,ピッチ後のホーム得点
+post_away_score,アウェイ得点_後,スコア,ピッチ後のアウェイ得点
+post_bat_score,攻撃得点_後,スコア,ピッチ後の攻撃側得点
+post_fld_score,守備得点_後,スコア,ピッチ後の守備側得点
+home_score_diff,得点差_ホーム,スコア,ホーム得点 − アウェイ得点
+bat_score_diff,得点差_攻撃,スコア,攻撃側得点 − 守備側得点
+home_win_exp,勝率期待_ホーム,スコア,ホームチーム勝利期待値
+bat_win_exp,勝率期待_攻撃,スコア,攻撃側チーム勝利期待値
+if_fielding_alignment,内野シフト,守備・バット,ピッチ時の内野守備シフト
+of_fielding_alignment,外野シフト,守備・バット,ピッチ時の外野守備シフト
+attack_angle,アタック角,守備・バット,バットスイートスポットの垂直角
+attack_direction,アタック方向,守備・バット,スイートスポットの水平角
+swing_path_tilt,スイング軌道傾き,守備・バット,スイング平面の垂直角
+intercept_ball_minus_batter_pos_x_inches,接触点差X_in,守備・バット,接触点と打者重心の X 距離（インチ）
+intercept_ball_minus_batter_pos_y_inches,接触点差Y_in,守備・バット,接触点と打者重心の Y 距離（インチ）
+bat_speed,バット速度_mph,守備・バット,スイートスポットでのバット速度
+swing_length,スイング長_ft,守備・バット,スイング開始から接触までの移動距離
+miss_distance,ミス距離_in,守備・バット,スイングと球のミス距離
+spin_dir,回転方向_非推奨,非推奨,旧トラッキング由来
+spin_rate_deprecated,回転数_非推奨,非推奨,旧トラッキング由来
+break_angle_deprecated,ブレーク角_非推奨,非推奨,旧トラッキング由来
+break_length_deprecated,ブレーク長_非推奨,非推奨,旧トラッキング由来
+tfs_deprecated,TFS_非推奨,非推奨,旧トラッキング由来
+tfs_zulu_deprecated,TFS_Zulu_非推奨,非推奨,旧トラッキング由来
+umpire,審判_非推奨,非推奨,旧トラッキング由来

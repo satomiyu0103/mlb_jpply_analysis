@@ -1,0 +1,19 @@
+pitch_type,pitch_name_en,pitch_name_ja,description_ja
+CH,Changeup,チェンジアップ,速球より遅く縦または横に変化する変化球
+CS,Slow Curve,スローカーブ,通常より遅いカーブ
+CU,Curveball,カーブ,大きく曲がる縦の変化球
+EP,Eephus,イーファス球,極端に遅い投球
+FA,Fastball,ファストボール,詳細分類前の高速球（多くは FF や SI に再分類）
+FC,Cutter,カットボール,速球に近いが横に鋭く切れる球
+FF,Four-Seam Fastball,フォーシーム,回転軸が真後ろに近い直球
+FO,Forkball,フォークボール,手元で落ちるフォーク系
+FS,Splitter,スプリット,スプリットフィンガー。手元から急激に落ちる
+KC,Knuckle Curve,ナックルカーブ,ナックル要素のあるカーブ
+KN,Knuckleball,ナックルボール,ほぼ回転しない球
+PO,Pitchout,ピッチアウト,盗塁阻止などの故意の外角球
+SC,Screwball,スクリューボール,スクリュー回転の変化球
+SI,Sinker,シンカー,ツーシーム系。地面に沈む速球
+SL,Slider,スライダー,横方向に鋭く曲がる変化球
+ST,Sweeper,スウィーパー,横に大きく曲がるスライダー系（新分類）
+SV,Slurve,スラーブ,スライダーとカーブの中間
+UN,Unknown,不明,自動分類不能または欠損

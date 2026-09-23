@@ -74,6 +74,7 @@ Baseball Savant の Statcast Search で取得する CSV データの各列の意
 | `release_speed` | 球速（mph）。2008–2016 は PitchFX 由来でリリース付近に調整。2017 以降は Statcast の手元リリース基準。いずれも同一スケール |
 | `effective_speed` | 投手のリリース延伸（extension）を踏まえた換算球速 |
 | `release_spin` | Statcast が計測した回転数（rpm） |
+| `release_spin_rate` | 上記と同義。pybaseball / 本リポジトリ Parquet の列名 |
 | `spin_axis` | 2D X–Z 平面での回転軸（0–360°）。180°=真後ろ回転（ストレート系）、0°=真上回転（12–6 カーブ系） |
 | `release_extension` | Statcast 計測のリリース延伸（フィート） |
 | `release_pos_x` | 捕手視点の水平リリース位置（フィート） |
@@ -123,11 +124,13 @@ Baseball Savant の Statcast Search で取得する CSV データの各列の意
 | `hc_x` | 打球座標 X |
 | `hc_y` | 打球座標 Y |
 | `hit_distance` | 打球の推定飛距離 |
+| `hit_distance_sc` | 上記と同義。pybaseball / 本リポジトリ Parquet の列名 |
 | `launch_speed` | Statcast 計測の打球初速（mph）。未計測分は推定値を含む |
 | `launch_angle` | Statcast 計測の打球角度（度）。未計測分は推定値を含む |
 | `launch_speed_angle` | 初速・角度に基づくゾーン（1=Weak … 6=Barrel 等） |
 | `estimated_ba_using_speedangle` | 初速・角度に基づく推定打率 |
 | `estimated_woba_using_speedangle` | 初速・角度に基づく推定 wOBA |
+| `estimated_slg_using_speedangle` | 初速・角度に基づく推定長打率 |
 | `hyper_speed` | Savant 表示名 Adjusted EV。88 mph 未満は 88 として扱い、それ以外は実測 EV |
 
 ### 価値・期待値（当該プレー）
@@ -140,6 +143,7 @@ Baseball Savant の Statcast Search で取得する CSV データの各列の意
 | `iso_value` | プレー結果に基づく ISO 値 |
 | `delta_home_win_exp` | 打席前後のホーム勝利期待値の変化 |
 | `delta_run_exp` | ピッチ前後の得点期待値（Run Expectancy）の変化 |
+| `delta_pitcher_run_exp` | ピッチ前後の投手視点得点期待値（Run Expectancy）の変化 |
 
 ### スコア（ピッチ前・後）
 
@@ -152,6 +156,7 @@ Baseball Savant の Statcast Search で取得する CSV データの各列の意
 | `post_home_score` | ピッチ後のホーム得点 |
 | `post_away_score` | ピッチ後のアウェイ得点 |
 | `post_bat_score` | ピッチ後の攻撃側得点 |
+| `post_fld_score` | ピッチ後の守備側得点 |
 | `home_score_diff` | ホーム得点 − アウェイ得点 |
 | `bat_score_diff` | 攻撃側得点 − 守備側得点 |
 | `home_win_exp` | ホームチームの勝利期待値 |
@@ -168,6 +173,9 @@ Baseball Savant の Statcast Search で取得する CSV データの各列の意
 | `swing_path_tilt` | 接触前 40 ms のスイング軌道がなす垂直角（スイング平面の傾き） |
 | `intercept_ball_minus_batter_pos_x_inches` | バット/球接触点と打者重心の X 方向距離（インチ） |
 | `intercept_ball_minus_batter_pos_y_inches` | バット/球接触点と打者重心の Y 方向距離（インチ・マウンド–本塁） |
+| `bat_speed` | スイートスポットでのバット速度（mph） |
+| `swing_length` | 計測開始から接触までバットヘッドが移動した距離の合計（フィート） |
+| `miss_distance` | スイング軌道と球のミス距離（インチ） |
 
 ### 非推奨・旧トラッキング系
 
@@ -250,7 +258,8 @@ Baseball Savant の Statcast Search で取得する CSV データの各列の意
 ## 本プロジェクトでの参照
 
 - データ配置: [data-catalog.md](../data-catalog.md)
-- 由伸分析でよく使う列: `pitcher`, `pitch_type`, `pitch_name`, `release_speed`, `release_spin`, `pfx_x`, `pfx_z`, `release_pos_x`, `release_pos_z`, `release_extension`, `plate_x`, `plate_z`, `zone`, `description`, `events`, `game_type`, `game_date`, `game_pk`, `balls`, `strikes`, `stand`
+- Notebook 上の DataFrame 名と Parquet 列: [statcast-dataframe.md](../statcast-dataframe.md)
+- 由伸分析でよく使う列: `pitcher`, `pitch_type`, `pitch_name`, `release_speed`, `release_spin_rate`（= `release_spin`）, `pfx_x`, `pfx_z`, `release_pos_x`, `release_pos_z`, `release_extension`, `plate_x`, `plate_z`, `zone`, `description`, `events`, `game_type`, `game_date`, `game_pk`, `balls`, `strikes`, `stand`
 
 pybaseball 等で列名が英語正本と微妙に異なる場合がある。取得直後に `schema` を確認する。
 
@@ -261,3 +270,4 @@ pybaseball 等で列名が英語正本と微妙に異なる場合がある。取
 | 日付 | 内容 |
 |------|------|
 | 2026-03-21 | 初版（[csv-docs](https://baseballsavant.mlb.com/csv-docs) に基づく日本語訳） |
+| 2026-09-23 | pybaseball 列名・Bat Tracking 列・`post_fld_score` 等を追記 |

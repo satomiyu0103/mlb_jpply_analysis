@@ -1,0 +1,32 @@
+column_en,column_ja,description_ja
+pitch_type,球種コード,球種2文字コード
+pitch_name,球種名_英,Savant 英語球種名
+pitch_name_ja,球種,日本語球種名（USE_JA 時）
+n_pitches,投球数,当該球種の投球数
+usage,使用率,投手内シェア
+speed_mean,球速_平均_mph,球速平均
+speed_median,球速_中央値_mph,球速中央値
+spin_mean,回転_平均_rpm,回転数平均
+spin_median,回転_中央値_rpm,回転数中央値
+pfx_x_mean,変化量X_平均_ft,水平変化平均
+pfx_x_median,変化量X_中央値_ft,水平変化中央値
+pfx_z_mean,変化量Z_平均_ft,垂直変化平均
+pfx_z_median,変化量Z_中央値_ft,垂直変化中央値
+extension_mean,リリース延伸_平均_ft,延伸平均
+spin_axis_mean,回転軸_平均_度,回転軸平均
+release_pos_x_mean,リリースX_平均_ft,リリース水平位置平均
+release_pos_z_mean,リリースZ_平均_ft,リリース垂直位置平均
+release_pos_x_sd,リリースX_SD_ft,リリース水平位置SD
+release_pos_z_sd,リリースZ_SD_ft,リリース垂直位置SD
+speed_sd,球速_SD_mph,球速SD
+zone_pct,ゾーン率,ストライクゾーン内割合
+strike_pct,ストライク率,type=S の割合
+csw_pct,CSW率,見逃し+空振り率
+whiff_pct,空振り率,スイングに対する空振り
+swing_pct,スイング率,スイング割合
+chase_pct,チェイス率,ゾーン外スイング率
+xwoba_mean_in_play,推定wOBA_インプレイ,インプレイ推定wOBA平均
+ev_mean_in_play,打球初速_平均_mph,インプレイ初速平均
+n_pa_terminal,打席終了数,最終球が当該球種の打席数
+pa_terminal_out_pct,打席終了アウト率,最終球アウト率
+woba_mean_pa_terminal,打席終了wOBA平均,最終球wOBA平均
