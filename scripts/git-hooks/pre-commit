@@ -1,0 +1,21 @@
+#!/bin/sh
+# DS 分析プロジェクト: コミット前検査（install_project_git_hooks.ps1 で .git/hooks に配置）
+
+set -e
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+run_py() {
+  if [ -x ".venv/Scripts/python.exe" ]; then
+    .venv/Scripts/python.exe "$@"
+  elif [ -x ".venv/bin/python" ]; then
+    .venv/bin/python "$@"
+  else
+    python "$@"
+  fi
+}
+
+run_py scripts/check_commit_branch_policy.py --staged
+run_py scripts/check_commit_atomicity.py --staged
+run_py scripts/check_no_raw_data_commit.py

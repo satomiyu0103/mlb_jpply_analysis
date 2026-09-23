@@ -15,6 +15,7 @@ uv run pytest
 
 echo "=== Check no raw data commit ==="
 uv run python scripts/check_no_raw_data_commit.py
+uv run pytest tests/test_check_commit_atomicity.py -q
 
 echo "=== Check no sensitive patterns ==="
 uv run python scripts/check_no_sensitive_patterns.py
